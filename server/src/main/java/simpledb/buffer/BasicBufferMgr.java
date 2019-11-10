@@ -1,5 +1,8 @@
 package simpledb.buffer;
 
+import java.util.Collections;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import simpledb.file.*;
 
 /**
@@ -13,6 +16,7 @@ class BasicBufferMgr {
     private Buffer[] bufferpool;
     private int numAvailable;
     private int strategy;
+    Dictionary fifo = new Hashtable();
 
     /**
      * Creates a buffer manager having the specified number of buffer slots.
@@ -174,6 +178,15 @@ class BasicBufferMgr {
      */
     private Buffer useFIFOStrategy() {
         throw new UnsupportedOperationException();
+//        int timeIn = 0;
+//        for (Buffer buff : bufferpool) {
+//            if (!buff.isPinned() & (fifo.get(buff) == Collections.min(fifo.getValue())) ) {
+//                timeIn += 1;
+//                fifo.put(buff, timeIn);
+//                return buff;
+//            }
+//        }
+//        return null;
     }
 
     /**

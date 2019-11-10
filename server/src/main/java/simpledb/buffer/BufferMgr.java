@@ -21,6 +21,7 @@ import simpledb.file.*;
 public class BufferMgr {
    private static final long MAX_TIME = 10000; // 10 seconds
    private BasicBufferMgr bufferMgr;
+   private int strategy;
    
    /**
     * Creates a new buffer manager having the specified 
@@ -121,4 +122,17 @@ public class BufferMgr {
    private boolean waitingTooLong(long starttime) {
       return System.currentTimeMillis() - starttime > MAX_TIME;
    }
+   
+   public Buffer[] getBuffers() {
+       return bufferMgr.getBuffers();
+   }
+   
+       /**
+     * Set buffer selection strategy
+     *
+     * @param s (0 - Naive, 1 - FIFO, 2 - LRU, 3 - Clock)
+     */
+    public void setStrategy(int s) {
+        this.strategy = s;
+    }
 }
