@@ -8,11 +8,14 @@ import simpledb.file.*;
  * @author Edward Sciore
  *
  */
-class BasicBufferMgr {
+final class BasicBufferMgr {
 
-    private Buffer[] bufferpool;
+    private final Buffer[] bufferpool;
     private int numAvailable;
     private int strategy;
+    public int time_count = 0;
+    public int clock_counter = -1;
+
 
     /**
      * Creates a buffer manager having the specified number of buffer slots.
@@ -68,6 +71,8 @@ class BasicBufferMgr {
             numAvailable--;
         }
         buff.pin();
+        time_count += 1;
+        buff.setIn(time_count);
         return buff;
     }
 
@@ -98,6 +103,8 @@ class BasicBufferMgr {
      */
     synchronized void unpin(Buffer buff) {
         buff.unpin();
+        time_count += 1;
+        buff.setOut(time_count);
         if (!buff.isPinned()) {
             numAvailable++;
         }
@@ -123,6 +130,12 @@ class BasicBufferMgr {
     }
 
     private Buffer chooseUnpinnedBuffer() {
+        for (Buffer buff : bufferpool) {
+            if (buff.block() == null) {
+                return buff;
+            }
+        }
+        
         switch (this.strategy) {
             case 0:
                 return useNaiveStrategy();
@@ -173,7 +186,14 @@ class BasicBufferMgr {
      * @return
      */
     private Buffer useFIFOStrategy() {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        Buffer smallestBuff = null;
+        for (Buffer buff : bufferpool) {
+            if (smallestBuff == null || buff.getIn() < smallestBuff.getIn()) {
+                smallestBuff = buff;
+            }
+        }   
+        return smallestBuff;
     }
 
     /**
@@ -182,7 +202,16 @@ class BasicBufferMgr {
      * @return
      */
     private Buffer useLRUStrategy() {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        Buffer smallestBuff = null;
+        for (Buffer buff : bufferpool) {
+            if (smallestBuff == null || buff.getOut() < smallestBuff.getOut()) {
+                if (!buff.isPinned()) {
+                    smallestBuff = buff;
+                }
+            }
+        }   
+        return smallestBuff;
     }
 
     /**
@@ -191,6 +220,31 @@ class BasicBufferMgr {
      * @return
      */
     private Buffer useClockStrategy() {
-        throw new UnsupportedOperationException();
+//        throw new UnsupportedOperationException();
+        Buffer lastBuff = null;
+        int count = 0;
+        for (Buffer buff : bufferpool) {
+            if (!buff.isPinned()) {
+                if (lastBuff == null || buff.getIn() > lastBuff.getIn()) {
+                    lastBuff = buff;
+                    clock_counter = count;
+                } 
+            } 
+            count += 1;
+        } 
+        clock_counter += 1;
+        if (clock_counter > bufferpool.length - 1){
+            clock_counter = 0;
+        }
+        Buffer buff = bufferpool[clock_counter];
+        while (buff.isPinned()) {
+//          System.out.println(current.block().number());
+            clock_counter += 1;
+            if (clock_counter > bufferpool.length - 1){
+                clock_counter = 0;
+            }
+            buff = bufferpool[clock_counter];
+        }
+        return buff;
     }
 }

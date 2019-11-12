@@ -19,6 +19,10 @@ public class Buffer {
    private int pins = 0;
    private int modifiedBy = -1;  // negative means not modified
    private int logSequenceNumber = -1; // negative means no corresponding log record
+   
+   public int time_in = 0;
+   public int time_out = 0;
+  
 
    /**
     * Creates a new buffer, wrapping a new 
@@ -35,6 +39,22 @@ public class Buffer {
     * is called first.
     */
    public Buffer() {}
+   
+   public int getIn() {
+       return time_in;
+   }
+   
+   public int getOut() {
+       return time_out;
+   }
+   
+   public void setIn(int time) {
+       time_in = time;
+   }
+   
+   public void setOut(int time) {
+       time_out = time;
+   }
    
    /**
     * Returns the integer value at the specified offset of the
