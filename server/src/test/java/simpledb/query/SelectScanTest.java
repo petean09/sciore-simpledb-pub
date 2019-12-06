@@ -24,6 +24,7 @@ public class SelectScanTest {
   
   @BeforeClass
   public static void setUpClass() {
+      //inialize and open DB
     SimpleDB.init("studentdb");
   }
   

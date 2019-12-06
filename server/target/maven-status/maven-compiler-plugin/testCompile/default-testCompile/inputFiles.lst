@@ -1,0 +1,8 @@
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/query/CreateStudentDB.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/query/SelectScanTest.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/remote/FindMajors.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/server/StudentMajorNoServer.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/remote/StudentMajor.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/remote/SQLInterpreter.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/remote/CreateStudentDB.java
+/Users/annapeterson/Senior/CS440/sciore-simpledb-pub/server/src/test/java/simpledb/remote/ChangeMajor.java
