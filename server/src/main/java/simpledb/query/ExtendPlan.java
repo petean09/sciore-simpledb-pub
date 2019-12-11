@@ -19,8 +19,8 @@ public class ExtendPlan implements Plan {
     public ExtendPlan(Plan p, String newName, int type, int length) {
         this.p = p;
         for (String fldname: p.schema().fields())
-                schema.add(fldname, p.schema());
-        schema.addField(newName, type, length);
+            schema.add(fldname, p.schema());
+            schema.addField(newName, type, length);
    }
     
     public Scan open() {
